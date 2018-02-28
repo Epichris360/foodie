@@ -1,0 +1,157 @@
+{{>dashboardTop}}
+   
+
+    <!-- Main container -->
+    <main class="main-content">
+        <section class="section"> 
+            <div class="container">
+                {{>alerts}}
+                <header class="section-header">
+                    <h2>Fill out The Form To Create It!</h2>
+                    <hr>
+                </header>
+                    <form action="/food-create" method="POST" >
+                        <div class="container "  >
+                            <div class="row gap-y card" style="padding: 10px; margin-right: 100px;" >
+                                        
+                                <div class="col-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Name?:</label>
+                                        <input class="form-control form-control-sm border-input " required
+                                            type="text" placeholder="Name?" name="name"
+                                        >
+                                    </div>
+                            
+                                    <div class="form-group">
+                                        <label>From?:</label>
+                                        <select class="form-control form-control-sm border-input" name="location" >
+                                            {{#locations}}
+                                                <option value="{{name}}" >{{name}}</option>
+                                            {{/locations}}
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Where Exactly?:</label>
+                                        <input class="form-control form-control-sm border-input" required
+                                            type="text" placeholder="Address or Neighborhood depends on you?" name="where"
+                                        >
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Price?:</label>
+                                        <input class="form-control form-control-sm border-input" required
+                                            type="number" placeholder="price?" name="price"
+                                            step=0.01
+                                        >
+                                    </div>
+
+                                </div>
+                            
+                                <div class="col-12 col-lg-8">
+                                    <div class="form-group">
+                                        <label>Description?:</label>
+                                        <textarea class="form-control border-input"
+                                            name="description" required
+                                            rows="7"  placeholder="Your message"
+                                        ></textarea>
+                                    </div>
+                                </div>
+
+                                <input type="hidden" id="imagesInput" name="images">
+                                
+                                <div class="row" >
+                                    <div class="col-12 col-lg-6 uploader-class upload-pic">
+                                        <button id="btn-file-select"
+                                            class="btn btn-outline btn-primary" 
+                                        >Upload Pictures!</button>
+                                    </div>
+
+                                    <div class="col-12 col-lg-6 uploader-class">
+                                        <button type="submit" 
+                                            id="submit"
+                                            class="btn btn-outline btn-success pull-right" 
+                                        >Create!</button>
+                                    </div>
+                                </div>
+
+                                <div class="col-12 col-lg-12" id="loading" >
+                                    <h1>Uploading....</h1>
+                                </div>
+
+                                <div class="col-12 col-lg-12" id="finished" >
+                                    <h1>Done....</h1>
+                                </div>
+                            
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- END Main container -->
+
+    {{>dashboardFooter}}
+
+    {{>dashboardScripts}}
+        <!-- For file uploading. Remove if file upload not necessry -->
+        <script type="text/javascript" src="/js/dropzone.js"></script> 
+        <!-- Turbo CDN. Better to use CDN than to store locally. -->
+        <script type="text/javascript" src="https://cdn.turbo360-dev.com/dist/turbo.min.js"></script>
+
+        <script type="text/javascript" >
+            $(function(){
+                $("#loading").hide()
+                $("#finished").hide()
+                var currentFiles = []
+                var turbo = Turbo({site_id: '5a3c38e20dadcb00143afbdd'}) // Enter your TURBO_APP_ID here 
+                //$("#loading").show()
+                //$(".uploader-class").hide()
+                $('#btn-file-select').click(function(event){
+                    event.preventDefault()
+                    turbo.uploadFile(function(err, data){
+                        if (err){
+                            swal(
+                                'Oops...',
+                                err.message,
+                                'error'
+                            )
+                            //$("#loading-class").hide()
+                            //$(".uploader-class").show()
+                            return
+                        }
+
+                        if (data.confirmation != 'success'){
+                            swal(
+                                'Oops...',
+                                data.message,
+                                'error'
+                            )
+                            //$("#loading-class").hide()
+                            //$(".uploader-class").show()
+                            return
+                        }
+
+                        var file = data.result.url
+                        currentFiles.unshift(file)
+                        $("#imagesInput").val(JSON.stringify(currentFiles))
+                        swal(
+                            'Awesome!',
+                            'Image(s) were Uploaded!!!!',
+                            'success'
+                        )
+                        $(".upload-pic").hide()
+                        $("#loading-class").hide()
+                        $("#finished").show()
+                        //$(".uploader-class").show()
+                        return
+                    })
+                })
+
+            })
+        </script>
+
+    </body>
+</html>

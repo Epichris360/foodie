@@ -1,0 +1,9 @@
+.xcontainer {
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    width: auto;
+}
+.xitem {
+    display: inline-block;
+}

@@ -1,0 +1,67 @@
+{{>header}}
+    {{>navbar}}
+
+        <body>
+            <!-- Header -->
+            <header class="header header-inverse h-fullscreen pb-80" style="background-image: url({{profile.imgLink}})" data-overlay="8">
+                <div class="container text-center">
+                    <div class="row">
+                        <div class="col-12 col-lg-12 offset-lg-2">
+                            <h1>{{profile.name}}</h1>
+                            <p class="fs-20 opacity-70">{{profile.where}}, {{profile.city}}</p>
+                            
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- END Header -->
+            <main class="main-content " style="background-color:#999; padding:10px;" >
+                
+                <div class="row" >
+                    {{#foods}}
+                        <div class="col-12 col-md-3 col-xl-4 ">
+                            <div class="card" >
+                                <a href="/food-{{slug}}">
+                                    <div class="item-details" style="padding:10px;">
+                                        <div>
+                                            <h3>{{name}}</h3>
+                                        </div>
+        
+                                        <div class="item-price"><span class="unit">$</span>{{price}}</div>
+                                    </div>
+                                    <img src="{{imgLink}}" alt="product">
+                                </a>
+                            </div>
+                        </div>
+                    {{/foods}}
+                </div>
+
+            </main>
+
+            <main class="main-content">
+                <section class="section bb-1">
+                    <div class="container">
+                    
+                        <div class="row">
+                            <div class="col-12 col-md-8">
+                                {{#description}}
+                                    <p>{{.}}</p>
+                                {{/description}}
+                            </div>
+                        </div>
+                    
+                    </div>
+                </section>
+            </main>
+
+        {{>footer}}
+        {{>scripts}}
+
+        <script type="text/javascript" >
+            $(function(){
+            })
+        </script>
+
+    </body>
+
+</html>

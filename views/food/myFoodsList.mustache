@@ -1,0 +1,52 @@
+{{>dashboardTop}}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Foods</h4>
+                        </div>
+                        <div class="header pull-right">
+                            <a class="btn btn-default {{pgLinks.backward.class}}" href="/my-foods?page={{pgLinks.backward.num}}" > < Previous </a>
+                            <a class="btn btn-default {{pgLinks.forward.class}}"  href="/my-foods?page={{pgLinks.backward.num}}"> Next >  </a>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped">
+                                <thead>
+                                    <th>Name</th>
+                                    <th>Price</th>
+                                    <th>Description</th>
+                                    <th>Show</th>
+                                    <th>Edit</th>
+                                </thead>
+                                <tbody>
+                                    {{#foods}}
+                                        <tr>
+                                            <td>{{name}}</td>
+                                            <td>{{price}}</td>
+                                            <td>{{strDesc}}</td>
+                                            <td>
+                                                <a href="/food-{{slug}}" class="btn btn-default"> Show </a>
+                                            </td>
+                                            <td>
+                                                <a href="/edit-{{slug}}-food" class="btn btn-danger"> Edit </a>
+                                            </td>
+                                        </tr>
+                                    {{/foods}}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{>dashboardFooter}}
+    {{>dashboardScripts}}
+
+    </body>
+</html>

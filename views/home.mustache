@@ -1,0 +1,47 @@
+{{>header}}
+   <body>
+        {{>navbar}}
+    <!-- Header -->
+    <header class="header header-inverse h-fullscreen pb-80" style="background-image: url(img/bg-grill.jpg);" data-overlay="8">
+      <div class="container text-center">
+
+        <div class="row h-full">
+          <div class="col-12 col-lg-8 offset-lg-2 align-self-center">
+
+            <h1 class="display-4 hidden-sm-down">Your Favorite Food. Here to Go!</h1>
+            <h1 class="hidden-md-up">NYC. Austin. Bay Area.</h1>
+            <br>
+            <p class="lead text-white fs-20 hidden-sm-down">
+              <span class="fw-400">NYC. Austin. Bay Area.</span>
+            </p>
+
+            <br><br><br>
+            {{#vertexSession.user.notloggedIn}}
+              <a class="btn btn-lg btn-round w-200 btn-primary mr-16" href="/signup" >
+                SignUp
+              </a>
+            {{/vertexSession.user.notloggedIn}}
+            <a class="btn btn-lg btn-round w-200 btn-outline btn-white hidden-sm-down" href="/foods" data-scrollto="section-intro">
+                Need a Snack?
+            </a>
+
+          </div>
+
+          
+
+        </div>
+
+      </div>
+    </header>
+
+    {{>footer}}
+    <!-- END Header -->
+
+    {{>scripts}}
+
+    <script>
+      // page specific javascript or jquery go here
+    </script>
+
+  </body>
+</html>

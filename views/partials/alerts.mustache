@@ -1,0 +1,11 @@
+{{#vertexSession.msg.show}}
+    <div class="alert alert-{{vertexSession.msg.type}} alert-dismissible fade show" role="alert" id="alertMsg" >
+        <a  href="/remover-alert" >
+            <button type="button" class="close" >
+                <span >×</span>
+            </button>
+        </a>
+        <span>{{vertexSession.msg.text}}</span>
+        
+    </div>
+{{/vertexSession.msg.show}} 

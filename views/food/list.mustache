@@ -1,0 +1,74 @@
+ {{>header}}
+    {{>navbar}}
+
+    <body>
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url(img/bg-ramen.jpg)" data-overlay="8">
+            <div class="container text-center">
+
+                <div class="row">
+                    <div class="col-12 col-lg-8 offset-lg-2">
+
+                        <h1>Hungry?</h1>
+                        <p class="fs-20 opacity-70">Find Something you like?<br />We'll get it to you ASAP</p>
+
+                    </div>
+                </div>
+
+            </div>
+        </header>
+        <!-- END Header -->
+
+
+        <!-- Main container -->
+    <main class="main-content">
+
+        <section class="section">
+            <div class="container">
+
+                <div class="row gap-y">
+            
+                {{#foods}}
+                    <div class="col-12 col-md-6 col-xl-4">
+                        <div class="shop-item">
+                        <a href="/food-{{slug}}">
+                            <div class="item-details">
+                                <div>
+                                    <h3>{{name}}</h3>
+                                </div>
+
+                                <div class="item-price"><span class="unit">$</span>{{price}}</div>
+                            </div>
+                            <img src="{{imgLink}}" alt="product">
+                        </a>
+                        </div>
+                    </div>
+                {{/foods}}
+           
+                </div>
+
+            </div>
+        </section>
+
+
+        <div style="padding:15px" >
+            <a class="btn btn-white {{pgLinks.backward.class}}" href="/foods?page={{pgLinks.backward.num}}" ><i class="ti-arrow-left fs-9 mr-4"></i> Backwards</a>
+
+            <a class="btn btn-white {{pgLinks.forward.class}} pull-right" href="/foods?page={{pgLinks.forward.num}}">Forwards <i class="ti-arrow-right fs-9 ml-4"></i></a>
+        </div>
+
+    </main>
+    <!-- END Main container -->
+
+
+        {{>footer}}
+        {{>scripts}}
+        
+        <script type="text/javascript" >
+            $(function(){
+
+            })
+        </script>
+
+    </body>
+</html>

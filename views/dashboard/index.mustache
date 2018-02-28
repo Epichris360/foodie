@@ -1,0 +1,218 @@
+{{>dashboardTop}}
+    
+    <div class="content" style="padding:10px;" > 
+        <div class="row"  >
+            <div class="col-md-6 col-sm-6 col-xs-12" style="margin-left:15px; ">
+                <span>Update?:</span>
+                <label class="switch">
+                    <input type="checkbox" id="updateCheckbox" checked>
+                    <span class="slider round"></span>
+                </label>
+            </div>
+            <div class="pull-right" id="secDiv" class="col-md-6 col-sm-6 col-xs-12" style="margin-right:35px;">
+                <span>How Often?</span>
+                <select class="btn btn-default" id="sec" >
+                    <option value="10">10 Seconds</option>
+                    <option value="20">20 Seconds</option>
+                    <option value="30">30 Seconds</option>
+                </select>
+            </div>
+        </div>
+        <br />
+        
+        <div class="container-fluid" style="background-color:#999; padding:10px;" >
+            <input type="hidden" id="oldest_created_at" name="oldest_created_at" value="{{oldest_created_at}}" >
+            <div class="row" id="rowForOrders" >
+                {{#orders}}
+                <div class="col-lg-3 col-sm-6" id="order-{{id}}" >
+                    <div class="card"  >
+                        <div class="content">
+                            <div class="row">
+                                <div class="col-xs-12">
+                                    <h5>Order Up!</h5>
+                                    <hr>
+                                    <strong>Food Name: </strong><span>{{food.name}}</span> <br />
+                                    <strong>QTY: </strong> <span>{{food.qty}}</span> <br /> <br />
+                                    <button class="btn btn-success start-cooking 
+                                        {{#start}}hidden{{/start}}" 
+                                        id="start-{{id}}" data-id="{{id}}" >Start!</button>
+
+                                    <button class="btn btn-warning end-cooking 
+                                        {{#done}}hidden{{/done}}"
+                                        id="done-{{id}}" data-id="{{id}}" >Done!</button>
+
+                                    <button class="btn btn-danger remove-cooking {{#remove}}hidden{{/remove}}" 
+                                        id="remove-{{id}}" data-id="{{id}}">Remove!</button>
+
+                                    <h5 id="loading-{{id}}" class="hidden" >Loading...</h5>
+                                </div>
+                            </div>
+                            <div class="footer">
+                                <hr />
+                                <div class="stats">
+                                    <strong>Delivery:</strong><span> Yes!</span>
+                                    <br />
+                                    <strong>Address: </strong>
+                                    <br />
+                                    <span>{{address_customer.address}}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{/orders}}
+            </div>            
+        </div>
+
+    </div>
+
+{{>dashboardFooter}}
+{{>dashboardScripts}}
+
+
+        <script type="text/javascript" > 
+            let updatingInterval = null
+            let updateRate       = 10000
+            $(function(){
+
+                $(".start-cooking").on('click', function(event){
+                    const id = $(this).attr('data-id')
+                    $("#start-"+id).addClass('hidden')
+                    $("#loading-"+id).removeClass('hidden')
+                    changeStatusOfOrder(id, "startCooking")
+                })
+
+                $(".end-cooking").on('click', function(event){
+                    const id = $(this).attr('data-id')
+                    $("#done-"+id).addClass('hidden')
+                    $("#loading-"+id).removeClass('hidden')
+                    changeStatusOfOrder(id, "doneCooking")
+                })
+
+                $(".remove-cooking").on('click', function(event){
+                    const id = $(this).attr('data-id')
+                    $("#remove-"+id).addClass('hidden')
+                    $("#loading-"+id).removeClass('hidden')
+                    changeStatusOfOrder(id, "remove")
+                })
+
+                //updates dashboard every 30 seconds
+                updatingInterval = setInterval(dashBoardUpdate, updateRate)
+
+                $("#updateCheckbox").on('click', function(event){
+                    const result = $("#updateCheckbox:checked").val() == "on"
+
+                    if(result){
+                        updatingInterval = setInterval(dashBoardUpdate, updateRate)
+                        $("#secDiv").removeClass('hidden')
+                    }else{
+                        clearInterval(updatingInterval)
+                        $("#secDiv").addClass('hidden')
+                    }
+
+                })
+
+                $("#sec").change(function(){
+                    updateRate = ( parseInt($(this).find("option:selected").attr('value')) * 1000)
+                    console.log('updateRate: ', updateRate)
+                    clearInterval(updatingInterval)
+                    updatingInterval = setInterval(dashBoardUpdate, updateRate)
+                })
+
+            })
+            function changeStatusOfOrder(id, which){
+                $.ajax({
+                        url: '/changeOrderStatus',
+                        data: {
+                            format: 'json',
+                            id: id,
+                            which: which
+                        },
+                        error: function() {
+                            console.log('error!')
+                        },
+                        dataType: 'json',
+                        success: function(data) {
+                            if(which == "startCooking"){
+                                console.log('set to done')
+                                $("#loading-"+id).addClass('hidden')
+                                $("#done-"+id).removeClass('hidden')
+                            }else if(which == "doneCooking"){
+                                console.log('set to remove')
+                                $("#loading-"+id).addClass('hidden')
+                                $("#done-"+id).addClass('hidden')
+                                $("#remove-"+id).removeClass('hidden')
+                            }else if( which == "remove" ){
+                                $("#loading-"+id).addClass('hidden')
+                                $("#order-"+id).addClass('hidden')
+                            }
+                        },
+                        type: 'POST'
+                    }); 
+            }
+
+            function dashBoardUpdate(){
+                const oldest_created_at = $("#oldest_created_at").val()
+                $.ajax({
+                    url: '/dashBoardUpdate',
+                    data: {
+                        format: 'json',
+                        oldest_created_at: oldest_created_at
+                    },
+                    error: function() {
+                        console.log('error!')
+                },
+                    dataType: 'json',
+                    success: function(data) {
+                        if(data.update){
+                            const oldest_created_at = data.newOrders[data.newOrders.length -1].created_at
+                            $("#oldest_created_at").val(oldest_created_at)
+                            data.newOrders.forEach(function(order){
+                                $("#rowForOrders").append(
+                                    '<div class="col-lg-3 col-sm-6" id="order-' + order.id + '" >' +
+                                    ' <div class="card"  >' +
+                                            '<div class="content">' +
+                                                '<div class="row">' +
+                                                    '<div class="col-xs-12">' +
+                                                        '<h5>Order Up!</h5>' +
+                                                        '<hr>' +
+                                                        '<strong>Food Name: </strong><span>' + order.food.name + '</span> <br />' +
+                                                        '<strong>QTY: </strong> <span>' + order.food.qty + '</span> <br /> <br />' +
+                                                        '<button class="btn btn-success start-cooking \
+                                                            '+ (order.start ? 'hidden' : '')+ '" \
+                                                            id="start-'+order.id+'" data-id="'+order.id+'" >Start!</button> ' +
+                                                        '<button class="btn btn-warning end-cooking \
+                                                            '+( order.done ? 'hidden' : '' )+'" \
+                                                            id="done-' + order.id + '" data-id="' + order.id + '" >Done!</button>' + 
+
+                                                        '<button class="btn btn-danger remove-cooking '+ (order.remove ? 'hidden' : '') +'" \
+                                                            id="remove-' + order.id + '" data-id="' + order.id + '">Remove!</button>' +
+
+                                                        '<h5 id="loading-'+ order.id +'" class="hidden" >Loading...</h5>' + 
+                                                    '</div>' +
+                                                '</div>' +
+                                                '<div class="footer">' +
+                                                    '<hr />' +
+                                                    '<div class="stats">' + 
+                                                        '<strong>Delivery:</strong><span> Yes!</span>' +
+                                                        '<br />' + 
+                                                        '<strong>Address: </strong>' +
+                                                        '<br />' +
+                                                        '<span>' + order.address_customer.address + '</span>' +
+                                                    '</div>' +
+                                                '</div>' +
+                                            '</div>' +
+                                        '</div>' +
+                                    '</div>'
+                                )
+                            })
+                        }
+                    },
+                    type: 'POST'
+                }); 
+            }
+        </script>
+    </body>
+
+</html>

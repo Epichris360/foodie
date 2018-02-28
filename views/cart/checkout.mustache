@@ -1,0 +1,137 @@
+{{>header}}
+    <body>
+        {{>navbar}}
+
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url(img/bg-grapes-checkout.jpg)" data-overlay="8">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-8 offset-lg-2">
+                        <h1>Checkout</h1>
+                        <p class="fs-20 opacity-70">Seems you're done! Let us know where we should send your order.</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END Header -->
+
+        <!-- Main container -->
+        <main class="main-content">
+
+            <section class="section">
+                <div class="container">
+
+                    <form class="row gap-y" action="/checkout" method="POST" id="payment-form" >
+
+                        <div class="col-12 col-lg-8"> 
+                            {{>alerts}}
+                            <table class="table table-cart">
+                                <tbody valign="middle">
+                                
+                                    {{#cart.items}}
+                                    <tr>
+                                        <td>
+                                            <a href="wine-{{slug}}">
+                                                <img src="{{imgLink}}" alt="...">
+                                            </a>
+                                        </td>
+
+                                        <td>
+                                            <h5>{{name}}</h5>
+                                        </td>
+
+                                        <td>
+                                            <h4 class="price">{{qty}} X ${{price}}</h4>
+                                        </td>
+                                    </tr>
+                                    {{/cart.items}}
+                                </tbody>
+                            </table>
+
+
+                            <br>
+                            <hr>
+                            <br>
+
+                            <h5 class="fs-16 mb-20">Shipping Address</h5>
+                    
+                            <select name="address" class="btn btn-default">
+                                {{#addresses}}
+                                    <option value="{{stringify}}">{{name}}</option>
+                                {{/addresses}}
+                            </select>
+
+                        </div>
+
+
+                        <div class="col-12 col-lg-4">
+                            <div class="cart-price">
+                                <div class="flexbox">
+                                    <div>
+                                        <p><strong>Subtotal:</strong></p>
+                                        <p><strong>Shipping:</strong></p>
+                                    </div>
+
+                                    <div>
+                                        <p>${{cart.total}}</p>
+                                        <p>${{shipping}}</p>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                <div class="flexbox">
+                                    <div>
+                                        <p><strong>Total:</strong></p>
+                                    </div>
+
+                                    <div>
+                                        <p class="fw-600">${{totalCost}}</p>
+                                    </div>
+                                </div>
+
+                                <hr>
+
+                                
+                                    <div class="form-row">
+                                        <label for="card-element">
+                                        Credit or debit card
+                                        </label>
+                                        <div id="card-element">
+                                        <!-- a Stripe Element will be inserted here. -->
+                                        </div>
+
+                                        <!-- Used to display form errors -->
+                                        <div id="card-errors" role="alert"></div>
+                                    </div>
+                                
+                            </div>
+
+                            <div class="flexbox">
+                                <a class="btn btn-secondary" href="/cart"><i class="ti-angle-left fs-9"></i> Revise</a>
+
+                                <button class="btn btn-primary" type="submit" id="submitBtn" >
+                                    Checkout <i class="ti-angle-right fs-9"></i>
+                                </button>
+
+                                <h2 id="proccessingh2" >Processing...</h2>
+                            </div>
+
+                        </div>
+                    </form>
+                </div>
+            </section>
+        </main>
+        <!-- END Main container -->
+
+
+        {{>footer}}
+        {{>scripts}}
+        <script src="js/stripe.js"></script>
+        <script type="text/javascript" >
+            $(function(){
+                $("#proccessingh2").hide()
+            })
+        </script>
+    </body>
+</html>

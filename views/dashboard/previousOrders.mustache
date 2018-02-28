@@ -1,0 +1,66 @@
+{{>dashboardTop}}
+
+    <div class="content">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="header">
+                            <h4 class="title">Old Orders</h4>
+                            <p class="category">Can be organized in many ways</p>
+                            <br/>
+                            <input type="text" class="border-input" size="50"
+                                id="datepicker" placeholder="If No Date is Picked, Everything Will be Returned" 
+                                value="{{date}}"
+                            >
+                        </div>
+                        <div class="header pull-right">
+                            <a class="btn btn-default {{pgLinks.backward.class}}" href="/my-foods?page={{pgLinks.backward.num}}{{dateLink}}" > < Previous </a>
+                            <a class="btn btn-default {{pgLinks.forward.class}}"  href="/my-foods?page={{pgLinks.forward.num}}{{dateLink}}"> Next >  </a>
+                        </div>
+                        <div class="content table-responsive table-full-width">
+                            <table class="table table-striped" >
+                                <thead>
+                                    <th>Food Name</th>
+                                    <th>Qty</th>
+                                    <th>Price</th>
+                                    <th>Total</th>
+                                    <th>Address</th>
+                                    <th>Date Time</th>
+                                </thead>
+                                <tbody>
+                                    {{#orders}}
+                                        <tr>
+                                            <td>{{food.name}}</td>
+                                            <td>{{food.qty}}</td>
+                                            <td>{{food.price}}</td>
+                                            <td>{{total}}</td>
+                                            <td>{{address_customer.address}}</td>
+                                            <td>{{created_date}}</td>
+                                        </tr>
+                                    {{/orders}}
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{>dashboardFooter}}
+    {{>dashboardScripts}}
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script type="text/javascript" >
+        $(function(){
+            $('#datepicker').flatpickr({})
+            //
+            $("#datepicker").on('change', function(e){
+                document.location = document.location.href + '?date=' + $(this).val()
+            })
+        })
+    </script>
+
+    </body>
+</html>

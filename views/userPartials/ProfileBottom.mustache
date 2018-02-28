@@ -1,0 +1,29 @@
+                            
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- END Main container -->
+
+    {{>footer}}
+
+    {{>scripts}}
+
+        <script type="text/javascript" >
+            $(function(){
+                
+                $(".addressEdit").on('click', function(event){
+                    const id      = $(this).attr('data-id')
+                    const address = $(this).attr('data-address')
+                    const name    = $(this).attr('data-name')
+                    
+                    $("#idEdit").val(id)
+                    $("#addressEdit").val(address)
+                    $("#nameEdit").val(name)
+                })
+            })
+        </script>
+
+    </body>
+</html>

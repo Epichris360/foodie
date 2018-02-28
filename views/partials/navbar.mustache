@@ -1,0 +1,53 @@
+ <!-- Topbar -->
+    <nav class="topbar topbar-inverse topbar-expand-md topbar-sticky">
+      <div class="container">
+        
+        <div class="topbar-left">
+          <button class="topbar-toggler">&#9776;</button>
+          <a class="topbar-brand" href="/">
+            <img class="logo-default" src="img/logo.png" alt="logo">
+            <img class="logo-inverse" src="img/logo-light.png" alt="logo">
+          </a>
+        </div>
+
+
+        <div class="topbar-right">
+          <ul class="topbar-nav nav">
+            {{#vertexSession.user.notloggedIn}}
+              <li class="nav-item"><a class="nav-link" href="/signin">Sign In</a></li>
+              <li class="nav-item"><a class="nav-link" href="/signup">Sign Up</a></li>
+            {{/vertexSession.user.notloggedIn}}
+
+            <li class="nav-item"><a href="/foods"       class="nav-link">Foods</a></li>
+            <li class="nav-item"><a href="/restaurants" class="nav-link">Restaurants</a></li>
+            {{#vertexSession.user.loggedIn}}
+              <li class="nav-item"> <a href="/cart" class="nav-link"> <i class="fa fa-shopping-cart" ></i> ({{ vertexSession.cart.numItems }}) </a> </li>
+            {{/vertexSession.user.loggedIn}}
+            {{#vertexSession.user.canEdit}}
+              <li class="nav-item"> <a href="/dashboard" class="nav-link">DashBoard</a> </li>
+            {{/vertexSession.user.canEdit}} 
+            {{#vertexSession.user.loggedIn}}
+              <li class="nav-item">
+                <a class="nav-link" href="#">Orders<i class="fa fa-caret-down"></i></a>
+                <div class="nav-submenu">
+                  <a class="nav-link" href="/dashboard-purchases">Purchases</a>
+                  <a class="nav-link" href="/dashboardOrdersActive">Current Orders</a>
+                </div>
+              </li>  
+            {{/vertexSession.user.loggedIn}}
+            {{#vertexSession.user.loggedIn}}
+              <li class="nav-item">
+                <a class="nav-link" href="#">User<i class="fa fa-caret-down"></i></a>
+                <div class="nav-submenu">
+                  <a class="nav-link" href="/profile">Profile</a>
+                  <a class="nav-link" href="/signout">Sign Out</a>
+                </div>
+              </li>  
+            {{/vertexSession.user.loggedIn}}
+
+          </ul>
+        </div>
+
+      </div>
+    </nav>
+    <!-- END Topbar -->

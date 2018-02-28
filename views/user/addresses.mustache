@@ -1,0 +1,81 @@
+{{>ProfileTop}}
+{{>alerts}}
+
+    <h5>Manage Your Addresses!</h5> 
+    <button class="btn btn-success btn-xs" data-toggle="modal" data-target="#CreateAddress" >Create One!</button> 
+    <hr>
+    <table class="table table-bordered table-striped" >
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Edit</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#addresses}}
+            <tr>
+                <td>{{name}}</td>
+                <td>{{address}}</td>
+                <td>
+                    <button class="btn btn-warning btn-xs addressEdit" 
+                        data-toggle="modal" data-target="#EditAddress"
+                        data-name="{{name}}" data-address="{{address}}" data-id="{{id}}"
+                    >Edit</button>
+                </td>
+            </tr>
+            {{/addresses}}
+        </tbody>
+    </table>
+
+    <!-- Address Creation Modal -->
+    <div class="modal fade" id="CreateAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content" action="/new-address" method="POST" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create A New Address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="">Name of Address:</label>
+                    <input type="text" name="name" class="form-control" required >
+                    <label for="">Address</label>
+                    <input type="text" name="address" class="form-control" required >
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-success" name="Create!" value="Create" >
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End of Address creation Modal -->
+ 
+    <!-- Address Edit Modal -->
+    <div class="modal fade" id="EditAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" style="display: none;" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <form class="modal-content" action="/update-address" method="POST" >
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edit An Address</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <label for="">Name of Address:</label>
+                    <input type="text" name="name" class="form-control" required id="nameEdit" >
+                    <label for="">Address</label>
+                    <input type="text" name="address" class="form-control" required id="addressEdit" >
+                    <input type="hidden" name="addressId" id="idEdit">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <input type="submit" class="btn btn-warning" name="Update!" value="Update!" >
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- End of Address Edit Modal -->
+{{>ProfileBottom}}

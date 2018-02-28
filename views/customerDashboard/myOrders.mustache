@@ -1,0 +1,50 @@
+{{>header}}
+    <body>
+        {{>navbar}}
+
+        <!-- Header -->
+        <header class="header header-inverse bg-fixed" style="background-image: url(img/bg-grapes-checkout.jpg)" data-overlay="8">
+            <div class="container text-center">
+                <div class="row">
+                    <div class="col-12 col-lg-8 offset-lg-2">
+                        <h1>Your Active Orders! </h1>
+                        <p class="fs-20 opacity-70">These are What's yet delivered!</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <!-- END Header -->
+
+        <!-- Main container -->
+        <main class="main-content">
+
+            <section class="section">
+                <div class="container">
+
+                    <table class="table table-bordered table-striped" >
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Qty</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {{#orders}}
+                                <tr>
+                                    <td>{{ food.name }}</td>
+                                    <td>{{ food.qty  }}</td>
+                                </tr>
+                            {{/orders}}
+                        </tbody>
+                    </table>
+
+                </div>
+            </section>
+
+        </main>
+
+        {{>footer}}
+        {{>scripts}}
+
+    </body>
+</html>

@@ -1,0 +1,26 @@
+{
+  "name": "Foodie",
+  "version": "0.0.0",
+  "server": false,
+  "private": true,
+  "scripts": {
+    "test": "",
+    "build": ""
+  },
+  "dependencies": {
+    "moment": "^2.20.1",
+    "nodemon": "latest",
+    "stripe": "^5.4.0",
+    "turbo360": "latest",
+    "vertex360": "latest"
+  },
+  "devDependencies": {
+    "express": "latest",
+    "rimraf": "latest"
+  },
+  "app": "5a3c38e20dadcb00143afbdd",
+  "deploy": [
+    "."
+  ],
+  "format": "vertex"
+}

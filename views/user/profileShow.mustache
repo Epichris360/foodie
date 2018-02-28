@@ -1,0 +1,33 @@
+{{>ProfileTop}}
+{{>alerts}}
+<form class="row gap-y" action="/update-user" method="POST" id="payment-form" >
+    <div class="col-12 col-lg-8"> 
+        <h5>Update Your Profile</h5>
+        <hr>
+        <div class="row">
+            <div class="col-12 col-md-6 form-group">
+                <label for="">FirstName:</label>
+                <input class="form-control" type="text" 
+                    name="firstName" placeholder="First Name" required
+                    value="{{user.firstName}}"
+                >
+            </div>
+            <div class="col-12 col-md-6 form-group">
+                <label for="">LastName:</label>
+                <input class="form-control" type="text" 
+                    name="lastName" placeholder="Last Name" required
+                    value="{{user.lastName}}"
+                >
+            </div>
+            <div class="col-12 col-md-12 form-group">
+                <label for="">UserName:</label>
+                <input class="form-control" type="text" 
+                    name="username" placeholder="UserName" required
+                    value="{{user.username}}"
+                >
+            </div>
+
+    </div>
+    <button class="btn btn-success" >Update!</button>
+</form
+{{>ProfileBottom}}

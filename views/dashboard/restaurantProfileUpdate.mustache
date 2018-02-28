@@ -1,0 +1,135 @@
+{{>dashboardTop}}
+
+    <div class="content">
+        <div class="container-fluid"> 
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card" style="padding:10px;" >
+                        <form action="/resProfileUpdate" method="post"  >
+                            <h3>Update Your Places( Food Truck, Restaurant, Food Cart etc ) Profile!</h3>
+                            <hr>
+                            <input type="text" name="name" 
+                                class="form-control border-input" placeholder="Name Of Your Place" 
+                                value="{{profile.name}}"
+                                required >
+                            <br>
+                            <label>Which City?</label>
+                            <select name="city" class="btn btn-default" >
+                                {{#locations}}
+                                    <option {{#profile.class}}selected{{/profile.class}} value="{{name}}">{{name}}</option>
+                                {{/locations}}
+                            </select>
+                            
+                            <div class="pull-right" >
+                                <label>Address or General Location</label>
+                                <input type="text" class="form-control border-input" name="where" 
+                                    size="60" value="{{profile.where}}"
+                                    placeholder="???????" required
+                                >
+                            </div>
+                            <br>
+                            <br>
+                            <br>
+                            <textarea name="description" class="form-control border-input" placeholder="A Short Description of Your Place" cols="30" rows="10" required >{{profile.description}}</textarea>
+                            <br>
+                            <input type="hidden" name="imgLink" id="imagesInput" value="{{profile.imgStr}}" >
+                            <input type="hidden" name="profileId" value="{{profile.id}}" >
+
+                            
+                            <div class="row" >
+                                <div class="col-12 col-lg-6 uploader-class upload-pic">
+                                    <button id="btn-file-select"
+                                        class="btn btn-outline btn-primary" 
+                                    >Upload Pictures!</button>
+                                </div>
+
+                                <div class="col-12 col-lg-6 uploader-class pull-right">
+                                    <button type="submit" 
+                                        id="submit"
+                                        class="btn btn-outline btn-success pull-right" 
+                                    >Create!</button>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-12" id="loading" >
+                                <h1>Uploading....</h1>
+                            </div>
+
+                            <div class="col-12 col-lg-12" id="finished" >
+                                <h1>Done....</h1>
+                            </div>
+                        </form>                            
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>    
+
+    {{>dashboardFooter}}
+    {{>dashboardScripts}}
+
+    <script type="text/javascript" >
+        $(function(){
+            $("#loading").hide()
+            $("#finished").hide()
+            var currentFiles = []
+            var turbo = Turbo({site_id: '5a3c38e20dadcb00143afbdd'}) // Enter your TURBO_APP_ID here 
+            //$("#loading").show()
+            //$(".uploader-class").hide()
+            $("#btn-file-select").on('click',function(event){
+                //$(".uploader-class").hide()
+                //$("#loading").show()
+                event.preventDefault()
+                turbo.uploadFile(function(err, data){
+                    if (err){
+                        swal(
+                            'Oops...',
+                            err.message,
+                            'error'
+                        )
+                        //$("#loading-class").hide()
+                        //$(".uploader-class").show()
+                        return
+                    }
+
+                    if (data.confirmation != 'success'){
+                        swal(
+                            'Oops...',
+                            data.message,
+                            'error'
+                        )
+                        //$("#loading-class").hide()
+                        //$(".uploader-class").show()
+                        return
+                    }
+
+                    var file = data.result.url
+                    currentFiles.unshift(file)
+                    $("#imagesInput").val(JSON.stringify(currentFiles))
+                    swal(
+                        'Awesome!',
+                        'Image(s) were Uploaded!!!!',
+                        'success'
+                    )
+                    //$(".pull-right").show()
+                    //$("#loading").hide()
+                    $("#finished").show()
+                    $(".upload-pic").hide()
+                    //$("#upload-pic").hide()
+                    //$(".uploader-class").show()
+                    return
+                })
+            })
+
+        })
+
+        $(document).keydown(function(e) {
+            if (e.keyCode == 27) {
+               $(".uploader-class").show()
+            }
+        })
+
+    </script>
+
+    </body>
+</html>
